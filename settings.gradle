@@ -1,0 +1,3 @@
+rootProject.name = 'gradle-java-cli'
+
+include 'application'

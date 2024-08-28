@@ -1,0 +1,28 @@
+ext {
+	application = [
+		name           : 'NettyServer',
+		manifestVersion: '1.0',
+		mainClass      : '',
+	]
+
+	versions = [
+		javaVersion  : JavaVersion.VERSION_21,
+		junitVersion : '4.13.2',
+		lombokVersion: '1.18.30',
+		nettyVersion : '4.1.112.Final'
+	]
+
+	libraries = [
+		junit : "junit:junit:$versions.junitVersion",
+		lombok: "org.projectlombok:lombok:$versions.lombokVersion",
+		netty : "io.netty:netty-all:$versions.nettyVersion"
+	]
+
+	gradlePlugins = [
+	]
+
+	mavenRepositories = [
+		aliyun      : 'https://maven.aliyun.com/repository/public/',
+		gradlePlugin: 'https://plugins.gradle.org/m2/'
+	]
+}

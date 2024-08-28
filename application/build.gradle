@@ -1,0 +1,10 @@
+ext {
+	application = [
+		name     : "netty-server",
+		mainClass: "me.hvkcoder.application.NettyServer"
+	]
+}
+
+dependencies {
+	implementation "$libraries.netty"
+}

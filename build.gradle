@@ -1,0 +1,107 @@
+apply from: 'dependencies.gradle'
+
+allprojects {
+	plugins.apply('java')
+
+	java {
+		targetCompatibility = versions.javaVersion
+		sourceCompatibility = versions.javaVersion
+	}
+
+	buildscript {
+		repositories {
+			mavenRepositories.each { entry -> maven { url entry.value } }
+			mavenCentral()
+		}
+
+		dependencies {
+
+		}
+	}
+
+	repositories {
+		mavenRepositories.each { entry -> maven { url entry.value } }
+		mavenCentral()
+	}
+
+	dependencies {
+		testImplementation "$libraries.junit"
+		compileOnly "$libraries.lombok"
+		annotationProcessor "$libraries.lombok"
+	}
+}
+
+subprojects {
+	// 拷贝 resources 目录任务
+	tasks.register('deleteResource', Delete) {
+		delete "${projectDir}/out/production/resources"
+	}
+	tasks.register('copyResource', Copy) {
+		dependsOn(tasks.deleteResource)
+		from "${projectDir}/src/main/resources"
+		into "${projectDir}/out/production/resources"
+	}
+
+
+	// 提取项目文件
+	tasks.register('extractFile') {
+		def target = "${project.buildDir}/${project.name}"
+		doLast {
+			// 复制项目依赖的 Jar 包
+			copy {
+				from configurations.compileClasspath
+				into "$target/lib"
+			}
+			// 复制项目 Resources 中的文件至 conf
+			copy {
+				from "src/main/resources"
+				into "$target/conf"
+			}
+		}
+	}
+
+	// 打包生成 jar
+	tasks.register("buildJar", org.gradle.jvm.tasks.Jar) {
+		def defaultApp = rootProject.ext.application
+		def app = project.ext.has('application') ? application : defaultApp
+
+		archiveBaseName.set("${app.name ?: defaultApp.name}")
+		archiveVersion.set("${app.manifestVersion ?: defaultApp.manifestVersion}")
+		destinationDirectory = file("$buildDir/${project.name}")
+		processResources {
+			exclude("*")
+		}
+		exclude("*.jar", "*.yml")
+		dependsOn(tasks.extractFile)
+		manifest {
+			attributes(
+				"Manifest-Version": "${app.manifestVersion ?: defaultApp.manifestVersion}",
+				'Main-Class': "${app.mainClass ?: defaultApp.mainClass}"
+			)
+		}
+		from(sourceSets.main.output)
+
+		doLast {
+			def binPath = file("$buildDir/${project.name}/bin")
+			if (!binPath.exists()) {
+				binPath.mkdirs()
+			}
+
+			// Linux 启动脚本生成
+			def serviceFile = file("$rootDir/bin/service.sh")
+			if (serviceFile.exists()) {
+				def content = serviceFile.readLines().join('\n')
+				def modifiedContent = content
+					.replaceAll("#SERVICE_NAME#", "${app.name ?: defaultApp.name}")
+					.replaceAll("#MAIN_CLASS#", "${app.mainClass ?: defaultApp.mainClass}")
+				def targetFilePath = new File(binPath, serviceFile.name)
+				targetFilePath.write(modifiedContent)
+				// 设置执行权限
+				if (!targetFilePath.canExecute()) {
+					targetFilePath.setExecutable(true, false)
+				}
+			}
+			println "=================== ヾ(@^▽^@)ノ 项目打包完成 (*^▽^*) ==================="
+		}
+	}
+}
