@@ -1,11 +1,16 @@
+plugins {
+	id 'java'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
 apply from: 'dependencies.gradle'
 
 allprojects {
 	plugins.apply('java')
 
 	java {
-		targetCompatibility = versions.javaVersion
-		sourceCompatibility = versions.javaVersion
+		targetCompatibility = "$versions.javaVersion"
+		sourceCompatibility = "$versions.javaVersion"
 	}
 
 	buildscript {
@@ -15,13 +20,21 @@ allprojects {
 		}
 
 		dependencies {
-
+			gradlePlugins.each { entry -> classpath "$entry.value" }
 		}
 	}
 
 	repositories {
 		mavenRepositories.each { entry -> maven { url entry.value } }
 		mavenCentral()
+	}
+
+	// 配置依赖管理
+	apply plugin: 'io.spring.dependency-management'
+	dependencyManagement {
+		imports {
+			springMavenBom.each { entry -> mavenBom "$entry.value" }
+		}
 	}
 
 	dependencies {
@@ -32,6 +45,7 @@ allprojects {
 }
 
 subprojects {
+
 	// 拷贝 resources 目录任务
 	tasks.register('deleteResource', Delete) {
 		delete "${projectDir}/out/production/resources"
@@ -41,7 +55,6 @@ subprojects {
 		from "${projectDir}/src/main/resources"
 		into "${projectDir}/out/production/resources"
 	}
-
 
 	// 提取项目文件
 	tasks.register('extractFile') {

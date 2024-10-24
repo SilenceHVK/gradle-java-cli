@@ -1,0 +1,10 @@
+ext {
+	application = [
+		name     : "spring-application",
+		mainClass: "me.hvkcoder.application.MySpringApplication"
+	]
+}
+
+dependencies {
+	springLibraries.each { entry -> implementation "$entry.value" }
+}

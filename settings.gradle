@@ -1,3 +1,4 @@
 rootProject.name = 'gradle-java-cli'
 
 include 'application'
+include 'spring-application'

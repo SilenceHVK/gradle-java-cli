@@ -6,10 +6,13 @@ ext {
 	]
 
 	versions = [
-		javaVersion  : JavaVersion.VERSION_21,
-		junitVersion : '4.13.2',
-		lombokVersion: '1.18.30',
-		nettyVersion : '4.1.112.Final'
+		javaVersion              : JavaVersion.VERSION_21,
+		springBootVersion        : '3.3.2',
+		springCloudVersion       : '2023.0.3',
+		springCloudAlibabaVersion: '2022.0.0.0-RC2',
+		junitVersion             : '4.13.2',
+		lombokVersion            : '1.18.30',
+		nettyVersion             : '4.1.112.Final'
 	]
 
 	libraries = [
@@ -18,7 +21,19 @@ ext {
 		netty : "io.netty:netty-all:$versions.nettyVersion"
 	]
 
+	springLibraries = [
+		webflux : 'org.springframework.boot:spring-boot-starter-webflux',
+		actuator: 'org.springframework.boot:spring-boot-starter-actuator',
+	]
+
+	springMavenBom = [
+		springBoot        : "org.springframework.boot:spring-boot-dependencies:$versions.springBootVersion",
+		springCloud       : "org.springframework.cloud:spring-cloud-dependencies:$versions.springCloudVersion",
+		springCloudAlibaba: "com.alibaba.cloud:spring-cloud-alibaba-dependencies:$versions.springCloudAlibabaVersion",
+	]
+
 	gradlePlugins = [
+		springDependencyManagement: "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
 	]
 
 	mavenRepositories = [
