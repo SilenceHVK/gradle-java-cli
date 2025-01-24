@@ -15,7 +15,7 @@ BASE_DIR=$(dirname $0)
 OS_TYPE=$(uname -s)
 
 usage() {
-  echo "USAGE: $0 [-daemon] [-name servicename] [-loggc] [start|stop|restart]"
+  echo "USAGE: $0 [-daemon] [-name servicename] [-nohuplog] [-loggc] [start|stop|restart]"
   exit 1
 }
 
@@ -82,6 +82,10 @@ while [ $# -gt 0 ]; do
     DAEMON_MODE="true"
     shift
     ;;
+  -nohuplog)
+    NO_HUP_LOG_ENABLE="true"
+    shift
+    ;;
   -loggc)
     GC_LOG_ENABLE="true"
     shift
@@ -133,7 +137,12 @@ start() {
   fi
   log INFO "$JAVA $JAVA_OPTS -cp \"$CLASS_PATH\" $MAIN_CLASS"
   if [ "x$DAEMON_MODE" = "xtrue" ]; then
-    nohup "$JAVA" $JAVA_OPTS -cp "$CLASS_PATH" $MAIN_CLASS >"$SERVICE_NAME.out" 2>&1 &
+  	 if [ "$NO_HUP_LOG_ENABLE" = "true" ]; then
+       NO_HUP_LOG_FILE="$SERVICE_NAME.out"
+     else
+       NO_HUP_LOG_FILE="/dev/null"
+     fi
+    nohup "$JAVA" $JAVA_OPTS -cp "$CLASS_PATH" $MAIN_CLASS >"$NO_HUP_LOG_FILE" 2>&1 &
     progress 20 "[INFO] Waiting $SERVICE_NAME to start complete" "start"
     if [ $? -eq 0 ]; then
       log INFO "$SERVICE_NAME start success"
