@@ -12,7 +12,15 @@ ext {
 		springCloudAlibabaVersion: '2022.0.0.0-RC2',
 		junitVersion             : '4.13.2',
 		lombokVersion            : '1.18.30',
-		nettyVersion             : '4.1.112.Final'
+		nettyVersion             : '4.1.112.Final',
+
+		// 日志版本管理
+		slf4jApiVersion          : '2.0.16',
+		logbackVersion           : '1.5.15',
+
+		// 数据源
+		mysqlVersion             : '8.3.0',
+		hibernateVersion         : '6.6.11.Final',
 	]
 
 	libraries = [
@@ -24,6 +32,17 @@ ext {
 	springLibraries = [
 		webflux : 'org.springframework.boot:spring-boot-starter-webflux',
 		actuator: 'org.springframework.boot:spring-boot-starter-actuator',
+	]
+
+	slf4jLibraries = [
+		slf4jApi      : "org.slf4j:slf4j-api:$versions.slf4jApiVersion",
+		logbackCore   : "ch.qos.logback:logback-core:$versions.logbackVersion",
+		logbackClassic: "ch.qos.logback:logback-classic:$versions.logbackVersion",
+	]
+
+	jpaLibraries = [
+		mysql    : "com.mysql:mysql-connector-j:$versions.mysqlVersion",
+		hibernate: "org.hibernate.orm:hibernate-core:$versions.hibernateVersion",
 	]
 
 	springMavenBom = [

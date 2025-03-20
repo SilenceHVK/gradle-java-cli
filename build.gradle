@@ -62,7 +62,7 @@ subprojects {
 		doLast {
 			// 复制项目依赖的 Jar 包
 			copy {
-				from configurations.compileClasspath
+				from configurations.runtimeClasspath
 				into "$target/lib"
 			}
 			// 复制项目 Resources 中的文件至 conf
