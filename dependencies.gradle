@@ -6,21 +6,25 @@ ext {
 	]
 
 	versions = [
-		javaVersion              : JavaVersion.VERSION_21,
-		springBootVersion        : '3.3.2',
-		springCloudVersion       : '2023.0.3',
-		springCloudAlibabaVersion: '2022.0.0.0-RC2',
-		junitVersion             : '4.13.2',
-		lombokVersion            : '1.18.30',
-		nettyVersion             : '4.1.112.Final',
+		javaVersion                    : JavaVersion.VERSION_21,
+		springBootVersion              : '3.3.2',
+		springCloudVersion             : '2023.0.3',
+		springCloudAlibabaVersion      : '2022.0.0.0-RC2',
+		junitVersion                   : '4.13.2',
+		lombokVersion                  : '1.18.30',
+		nettyVersion                   : '4.1.112.Final',
 
 		// 日志版本管理
-		slf4jApiVersion          : '2.0.16',
-		logbackVersion           : '1.5.15',
+		slf4jApiVersion                : '2.0.16',
+		logbackVersion                 : '1.5.15',
 
 		// 数据源
-		mysqlVersion             : '8.3.0',
-		hibernateVersion         : '6.6.11.Final',
+		mysqlVersion                   : '8.3.0',
+		hibernateVersion               : '6.6.11.Final',
+		mybatisVersion                 : '3.0.4',
+		mybatisPlusStarterVersion      : '3.5.5',
+		dynamicDatasourceStarterVersion: '4.3.1',
+		druidStarterVersion            : '1.2.24',
 	]
 
 	libraries = [
@@ -43,6 +47,14 @@ ext {
 	jpaLibraries = [
 		mysql    : "com.mysql:mysql-connector-j:$versions.mysqlVersion",
 		hibernate: "org.hibernate.orm:hibernate-core:$versions.hibernateVersion",
+	]
+
+	mybatisPlusLibraries = [
+		mysql            : "com.mysql:mysql-connector-j:$versions.mysqlVersion",
+		mybatisSpring    : "org.mybatis:mybatis-spring:$versions.mybatisVersion",
+		mybatisPlus      : "com.baomidou:mybatis-plus-spring-boot3-starter:$versions.mybatisPlusStarterVersion",
+		dynamicDataSource: "com.baomidou:dynamic-datasource-spring-boot3-starter:$versions.dynamicDatasourceStarterVersion",
+		druid            : "com.alibaba:druid-spring-boot-3-starter:$versions.druidStarterVersion",
 	]
 
 	springMavenBom = [
