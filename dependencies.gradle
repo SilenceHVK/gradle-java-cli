@@ -21,6 +21,10 @@ ext {
 		langchain4jVersion             : '1.1.0',
 		langchain4jSpringBootVersion   : '1.1.0-beta7',
 
+		// Flink 版本管理
+		flinkVersion                   : '1.18.0',
+		flinkCDCMySQLVersion           : '3.0.0',
+
 		// 日志版本管理
 		slf4jApiVersion                : '2.0.16',
 		logbackVersion                 : '1.5.15',
@@ -62,6 +66,18 @@ ext {
 		langChain4jReactor         : 'dev.langchain4j:langchain4j-reactor',
 		langchain4jOpenAISpringBoot: "dev.langchain4j:langchain4j-open-ai-spring-boot-starter:$versions.langchain4jSpringBootVersion",
 		langchain4jSpringBoot      : "dev.langchain4j:langchain4j-spring-boot-starter:$versions.langchain4jSpringBootVersion",
+	]
+
+	// Flink 依赖
+	flinkLibraries = [
+		flinkJava         : "org.apache.flink:flink-java:$versions.flinkVersion",
+		flinkStreamJava   : "org.apache.flink:flink-streaming-java:$versions.flinkVersion",
+		flinkClients      : "org.apache.flink:flink-clients:$versions.flinkVersion",
+		flinkTablePlanner : "org.apache.flink:flink-table-planner_2.12:$versions.flinkVersion",
+		flinkTableRuntime : "org.apache.flink:flink-table-runtime:$versions.flinkVersion",
+		flinkTableAPIJava : "org.apache.flink:flink-table-api-java-bridge:$versions.flinkVersion",
+		flinkConnectorBase: "org.apache.flink:flink-connector-base:$versions.flinkVersion",
+		flinkCDCMySQL     : "com.ververica:flink-connector-mysql-cdc:$versions.flinkCDCMySQLVersion"
 	]
 
 	slf4jLibraries = [
