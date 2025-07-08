@@ -17,6 +17,10 @@ ext {
 		springCloudAlibabaVersion      : '2022.0.0.0-RC2',
 		springAIVersion                : '1.0.0-SNAPSHOT',
 
+		// LangChain4j 版本管理
+		langchain4jVersion             : '1.1.0',
+		langchain4jSpringBootVersion   : '1.1.0-beta7',
+
 		// 日志版本管理
 		slf4jApiVersion                : '2.0.16',
 		logbackVersion                 : '1.5.15',
@@ -47,6 +51,17 @@ ext {
 		springAiBom             : "org.springframework.ai:spring-ai-bom:$versions.springAIVersion",
 		springOpenAI            : 'org.springframework.ai:spring-ai-openai',
 		springAiMCPServerWebFlux: 'org.springframework.ai:spring-ai-starter-mcp-server-webflux'
+	]
+
+	// LangChain4j 依赖
+	langchain4jLibraries = [
+		langchain4jBom             : "dev.langchain4j:langchain4j-bom:$versions.langchain4jVersion",
+		langchain4jOpenAI          : 'dev.langchain4j:langchain4j-open-ai',
+		langchain4jMCP             : 'dev.langchain4j:langchain4j-mcp',
+		langChain4j                : 'dev.langchain4j:langchain4j',
+		langChain4jReactor         : 'dev.langchain4j:langchain4j-reactor',
+		langchain4jOpenAISpringBoot: "dev.langchain4j:langchain4j-open-ai-spring-boot-starter:$versions.langchain4jSpringBootVersion",
+		langchain4jSpringBoot      : "dev.langchain4j:langchain4j-spring-boot-starter:$versions.langchain4jSpringBootVersion",
 	]
 
 	slf4jLibraries = [
