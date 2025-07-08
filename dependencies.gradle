@@ -7,12 +7,15 @@ ext {
 
 	versions = [
 		javaVersion                    : JavaVersion.VERSION_21,
-		springBootVersion              : '3.3.2',
-		springCloudVersion             : '2023.0.3',
-		springCloudAlibabaVersion      : '2022.0.0.0-RC2',
 		junitVersion                   : '4.13.2',
 		lombokVersion                  : '1.18.30',
 		nettyVersion                   : '4.1.112.Final',
+
+		// Spring 版本管理
+		springBootVersion              : '3.3.2',
+		springCloudVersion             : '2023.0.3',
+		springCloudAlibabaVersion      : '2022.0.0.0-RC2',
+		springAIVersion                : '1.0.0-SNAPSHOT',
 
 		// 日志版本管理
 		slf4jApiVersion                : '2.0.16',
@@ -33,9 +36,17 @@ ext {
 		netty : "io.netty:netty-all:$versions.nettyVersion"
 	]
 
-	springLibraries = [
+	// SpringBoot 依赖
+	springBootLibraries = [
 		webflux : 'org.springframework.boot:spring-boot-starter-webflux',
 		actuator: 'org.springframework.boot:spring-boot-starter-actuator',
+	]
+
+	// SpringAI 依赖
+	springAILibraries = [
+		springAiBom             : "org.springframework.ai:spring-ai-bom:$versions.springAIVersion",
+		springOpenAI            : 'org.springframework.ai:spring-ai-openai',
+		springAiMCPServerWebFlux: 'org.springframework.ai:spring-ai-starter-mcp-server-webflux'
 	]
 
 	slf4jLibraries = [
@@ -69,6 +80,8 @@ ext {
 
 	mavenRepositories = [
 		aliyun      : 'https://maven.aliyun.com/repository/public/',
-		gradlePlugin: 'https://plugins.gradle.org/m2/'
+		gradlePlugin: 'https://plugins.gradle.org/m2/',
+		milestone   : 'https://repo.spring.io/milestone',
+		snapshot    : 'https://repo.spring.io/snapshot'
 	]
 }
