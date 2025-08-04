@@ -114,6 +114,17 @@ subprojects {
 					targetFilePath.setExecutable(true, false)
 				}
 			}
+
+			// Windows 启动脚本生成
+			def serviceBatFile = file("$rootDir/bin/service.bat")
+			if (serviceBatFile.exists()) {
+				def batContent = serviceBatFile.readLines().join('\n')
+				def modifiedBatContent = batContent
+					.replaceAll("#SERVICE_NAME#", "${app.name ?: defaultApp.name}")
+					.replaceAll("#MAIN_CLASS#", "${app.mainClass ?: defaultApp.mainClass}")
+				def targetBatFilePath = new File(binPath, serviceBatFile.name)
+				targetBatFilePath.write(modifiedBatContent)
+			}
 			println "=================== ヾ(@^▽^@)ノ 项目打包完成 (*^▽^*) ==================="
 		}
 	}
