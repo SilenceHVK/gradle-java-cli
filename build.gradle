@@ -1,12 +1,14 @@
 plugins {
 	id 'java'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 apply from: 'dependencies.gradle'
 
 allprojects {
 	plugins.apply('java')
+	plugins.apply('com.github.johnrengelman.shadow')
 
 	java {
 		targetCompatibility = "$versions.javaVersion"
@@ -127,5 +129,17 @@ subprojects {
 			}
 			println "=================== ヾ(@^▽^@)ノ 项目打包完成 (*^▽^*) ==================="
 		}
+	}
+
+	// 全量打包 AllInOne
+	tasks.register("buildAll") {
+		def defaultApp = rootProject.ext.application
+		def app = project.ext.has('application') ? application : defaultApp
+		tasks.shadowJar {
+			zip64 = true
+			archiveFileName = "${app.name ?: defaultApp.name}-all-${app.manifestVersion ?: defaultApp.manifestVersion}.jar"
+			manifest.attributes 'Main-Class': app.mainClass ?: defaultApp.mainClass
+		}
+		finalizedBy shadowJar
 	}
 }
