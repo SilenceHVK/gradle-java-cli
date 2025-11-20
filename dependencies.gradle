@@ -22,8 +22,11 @@ ext {
 		langchain4jSpringBootVersion   : '1.1.0-beta7',
 
 		// Flink 版本管理
-		flinkVersion                   : '1.18.0',
+		flinkVersion                   : '1.20.0',
 		flinkCDCMySQLVersion           : '3.0.0',
+		filesConnectorVersion          : '2.1.1',
+		kafkaConnectorVersion          : '4.0.0-2.0',
+		droisConnectorVersion          : '1.20:25.1.0',
 
 		// 日志版本管理
 		slf4jApiVersion                : '2.0.16',
@@ -68,17 +71,21 @@ ext {
 		langchain4jSpringBoot      : "dev.langchain4j:langchain4j-spring-boot-starter:$versions.langchain4jSpringBootVersion",
 	]
 
-	// Flink 依赖
-	flinkLibraries = [
-		flinkJava         : "org.apache.flink:flink-java:$versions.flinkVersion",
-		flinkStreamJava   : "org.apache.flink:flink-streaming-java:$versions.flinkVersion",
-		flinkClients      : "org.apache.flink:flink-clients:$versions.flinkVersion",
-		flinkTablePlanner : "org.apache.flink:flink-table-planner_2.12:$versions.flinkVersion",
-		flinkTableRuntime : "org.apache.flink:flink-table-runtime:$versions.flinkVersion",
-		flinkTableAPIJava : "org.apache.flink:flink-table-api-java-bridge:$versions.flinkVersion",
-		flinkConnectorBase: "org.apache.flink:flink-connector-base:$versions.flinkVersion",
-		flinkCDCMySQL     : "com.ververica:flink-connector-mysql-cdc:$versions.flinkCDCMySQLVersion"
+	// Flink 依赖 =========================================================================================================
+	flinkCompileOnly = [
+		flinkJava         : "org.apache.flink:flink-java:${versions.flinkVersion}",
+		flinkStreamJava   : "org.apache.flink:flink-streaming-java:${versions.flinkVersion}",
+		flinkClients      : "org.apache.flink:flink-clients:${versions.flinkVersion}",
+		flinkConnectorBase: "org.apache.flink:flink-connector-base:${versions.flinkVersion}",
+		flinkTableAPIJava : "org.apache.flink:flink-table-api-java-bridge:${versions.flinkVersion}",
+		flinkTableRuntime : "org.apache.flink:flink-table-runtime:${versions.flinkVersion}",
 	]
+	flinkImplementation = [
+		flinkConnectorFiles: "org.apache.flink:flink-connector-files:${versions.filesConnectorVersion}",
+		flinkConnectKafka  : "org.apache.flink:flink-connector-kafka:${versions.kafkaConnectorVersion}",
+		flinkConnectDoris  : "org.apache.doris:flink-doris-connector-${versions.droisConnectorVersion}",
+	]
+	// ===================================================================================================================
 
 	slf4jLibraries = [
 		slf4jApi      : "org.slf4j:slf4j-api:$versions.slf4jApiVersion",
